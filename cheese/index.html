@@ -9,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400;9..144,600;9..144,800;9..144,900&family=Caveat:wght@500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400;0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ---- Fieldwork tokens (light/paper) ---- */
@@ -30,7 +30,6 @@
   --wheel-rim: #c79538;
 
   --font-display: 'Fraunces', 'Georgia', serif;
-  --font-hand:    'Caveat', cursive;
   --font-mono:    'DM Mono', ui-monospace, monospace;
 }
 
@@ -105,11 +104,14 @@ body {
 }
 
 .recipient {
-  font-family: var(--font-hand);
-  font-size: 30px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
   color: var(--ink-soft);
-  margin: -6px 0 0;
-  line-height: 1.1;
+  margin: -4px 0 0;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
 }
 
 .wheel {
@@ -130,8 +132,10 @@ body {
 .wheel svg { width: 100%; height: 100%; display: block; }
 
 .hint {
-  font-family: var(--font-hand);
-  font-size: 22px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: var(--terracotta);
   display: flex;
   align-items: center;
@@ -279,11 +283,14 @@ body {
 
 .recipients {
   text-align: center;
-  font-family: var(--font-hand);
-  font-size: 26px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22px;
   color: var(--ink);
-  line-height: 1.1;
+  line-height: 1.2;
   margin: 0 0 10px;
+  letter-spacing: 0.005em;
 }
 .recipients .for {
   font-family: var(--font-display);
@@ -372,12 +379,14 @@ body {
   color: var(--muted);
 }
 .signoff .from-name {
-  font-family: var(--font-hand);
-  font-style: normal;
-  font-size: 26px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 18px;
   color: var(--terracotta-deep);
   display: block;
-  margin-top: 2px;
+  margin-top: 4px;
+  letter-spacing: 0.01em;
 }
 
 .hidden { display: none !important; }
@@ -403,7 +412,7 @@ body {
   .shop-name { font-size: 26px; }
   .amount { font-size: 54px; }
   .wheel { width: 220px; height: 220px; }
-  .recipient { font-size: 26px; }
+  .recipient { font-size: 19px; }
 }
 </style>
 </head>
@@ -470,8 +479,7 @@ body {
     </div>
 
     <div class="hint">
-      tap to unwrap
-      <span class="arrow">↑</span>
+      tap to unwrap <span class="arrow">↑</span>
     </div>
   </div>
 
