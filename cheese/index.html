@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>A Little Something</title>
+<meta name="description" content="A handmade gift, just for you." />
+<meta name="theme-color" content="#f5f1e8" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400;9..144,600;9..144,800;9..144,900&family=Caveat:wght@500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ---- Fieldwork tokens (light/paper) ---- */
+:root {
+  --bg:        #f1e9d6;   /* warm parchment, a touch more amber than default */
+  --bg-deep:   #e8debf;
+  --paper:     #fbf6e9;
+  --ink:       #2a221a;
+  --ink-soft:  #5a4a38;
+  --muted:     #8b7a5e;
+  --rule:      #c9bc99;
+  --terracotta:#b85c28;
+  --terracotta-deep:#8a3f17;
+  --sage:      #6b8a4e;
+  --gold:      #c89938;
+  --rind:      #d97a3a;
+  --wheel:     #f0d27a;
+  --wheel-rim: #c79538;
+
+  --font-display: 'Fraunces', 'Georgia', serif;
+  --font-hand:    'Caveat', cursive;
+  --font-mono:    'DM Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  /* speckled parchment */
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(120, 80, 40, 0.05) 0, transparent 2px),
+    radial-gradient(circle at 70% 60%, rgba(120, 80, 40, 0.04) 0, transparent 2px),
+    radial-gradient(circle at 40% 80%, rgba(120, 80, 40, 0.05) 0, transparent 2px),
+    radial-gradient(circle at 85% 15%, rgba(120, 80, 40, 0.04) 0, transparent 2px),
+    radial-gradient(ellipse at 50% 0%, rgba(184, 92, 40, 0.08), transparent 60%);
+  background-size: 7px 7px, 11px 11px, 9px 9px, 13px 13px, 100% 100%;
+}
+
+.stage {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  position: relative;
+}
+
+/* ===== STAGE 1: WRAPPED WHEEL ===== */
+.wrap-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.wrap-stage.is-gone {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  position: absolute;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--terracotta);
+  opacity: 0.5;
+}
+
+.recipient {
+  font-family: var(--font-hand);
+  font-size: 30px;
+  color: var(--ink-soft);
+  margin: -6px 0 0;
+  line-height: 1.1;
+}
+
+.wheel {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  filter: drop-shadow(0 10px 20px rgba(80, 50, 20, 0.25));
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-8px) rotate(2deg); }
+}
+.wheel:active { transform: scale(0.96); transition: transform 0.1s ease; }
+.wheel svg { width: 100%; height: 100%; display: block; }
+
+.hint {
+  font-family: var(--font-hand);
+  font-size: 22px;
+  color: var(--terracotta);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; transform: translateY(0); }
+  50%      { opacity: 1;   transform: translateY(2px); }
+}
+.hint .arrow {
+  display: inline-block;
+  animation: bounce 1.5s ease-in-out infinite;
+  font-size: 18px;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+
+/* ===== STAGE 2: CARD ===== */
+.card-stage {
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.7s ease 0.2s, transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1.1) 0.2s;
+}
+.card-stage.is-here {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 26px 22px 22px;
+  position: relative;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 12px 30px rgba(80, 50, 20, 0.18),
+    0 2px 6px rgba(80, 50, 20, 0.10);
+}
+/* deckle / double-rule frame */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.label-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.label-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 4px 0 14px;
+  color: var(--rule);
+}
+.label-rule::before, .label-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+  max-width: 80px;
+}
+.label-rule .ornament {
+  font-size: 14px;
+  color: var(--terracotta);
+}
+
+.shop-name {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+  font-weight: 900;
+  font-size: 32px;
+  line-height: 1.05;
+  text-align: center;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.shop-sub {
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin: 4px 0 0;
+}
+.location {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 10px 0 16px;
+}
+
+.amount-block {
+  text-align: center;
+  padding: 14px 0;
+  border-top: 1px dashed var(--rule);
+  border-bottom: 1px dashed var(--rule);
+  margin: 0 0 16px;
+}
+.amount-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.amount {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "WONK" 1;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--terracotta-deep);
+  margin: 4px 0 0;
+  letter-spacing: -0.02em;
+}
+.amount .cents {
+  font-size: 28px;
+  vertical-align: super;
+  margin-left: 2px;
+}
+
+.recipients {
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: 26px;
+  color: var(--ink);
+  line-height: 1.1;
+  margin: 0 0 10px;
+}
+.recipients .for {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.note {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 14px 8px 16px;
+  padding: 0 4px;
+}
+
+.code-block {
+  margin: 8px 0 14px;
+  text-align: center;
+}
+.code-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.code {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+  background: var(--bg-deep);
+  border: 1px dashed var(--terracotta);
+  border-radius: 3px;
+  padding: 8px 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+.code:active { background: var(--wheel); }
+.code-hint {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  min-height: 16px;
+}
+
+.redeem {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  background: var(--terracotta);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 18px;
+  border-radius: 3px;
+  margin: 6px 0 0;
+  border: 1px solid var(--terracotta-deep);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.redeem:hover { background: var(--terracotta-deep); }
+.redeem:active { transform: translateY(1px); }
+
+.signoff {
+  text-align: center;
+  margin: 20px 0 4px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--muted);
+}
+.signoff .from-name {
+  font-family: var(--font-hand);
+  font-style: normal;
+  font-size: 26px;
+  color: var(--terracotta-deep);
+  display: block;
+  margin-top: 2px;
+}
+
+.hidden { display: none !important; }
+
+/* confetti */
+.confetti {
+  position: fixed;
+  pointer-events: none;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+}
+.confetti span {
+  position: absolute;
+  top: -20px;
+  width: 8px;
+  height: 12px;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 380px) {
+  .shop-name { font-size: 26px; }
+  .amount { font-size: 54px; }
+  .wheel { width: 220px; height: 220px; }
+  .recipient { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- ============ STAGE 1: WRAPPED ============ -->
+  <div class="wrap-stage" id="wrapStage">
+    <div class="eyebrow">A little something</div>
+    <div class="recipient" id="recipientGreeting">for you two</div>
+
+    <div class="wheel" id="wheel" role="button" tabindex="0" aria-label="Tap to unwrap">
+      <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="wheelGrad" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#fae29a"/>
+            <stop offset="70%" stop-color="#f0d27a"/>
+            <stop offset="100%" stop-color="#d4b25a"/>
+          </radialGradient>
+          <linearGradient id="ribbonGrad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#d97a3a"/>
+            <stop offset="100%" stop-color="#a8451c"/>
+          </linearGradient>
+        </defs>
+
+        <!-- rind shadow -->
+        <ellipse cx="130" cy="240" rx="90" ry="8" fill="rgba(60,30,10,0.18)"/>
+
+        <!-- wheel body -->
+        <circle cx="130" cy="130" r="110" fill="url(#wheelGrad)" stroke="#c79538" stroke-width="2"/>
+        <!-- rind speckle -->
+        <circle cx="90" cy="100" r="3" fill="#b88820" opacity="0.4"/>
+        <circle cx="170" cy="90" r="2" fill="#b88820" opacity="0.5"/>
+        <circle cx="155" cy="160" r="2.5" fill="#b88820" opacity="0.4"/>
+        <circle cx="100" cy="170" r="2" fill="#b88820" opacity="0.5"/>
+        <circle cx="180" cy="140" r="1.5" fill="#b88820" opacity="0.4"/>
+        <circle cx="115" cy="130" r="1.5" fill="#b88820" opacity="0.3"/>
+
+        <!-- ribbon vertical -->
+        <rect x="112" y="20" width="36" height="220" fill="url(#ribbonGrad)"/>
+        <rect x="112" y="20" width="36" height="220" fill="none" stroke="#7a2f10" stroke-width="0.5" opacity="0.4"/>
+        <!-- ribbon horizontal -->
+        <rect x="20" y="112" width="220" height="36" fill="url(#ribbonGrad)"/>
+        <rect x="20" y="112" width="220" height="36" fill="none" stroke="#7a2f10" stroke-width="0.5" opacity="0.4"/>
+
+        <!-- bow center knot -->
+        <circle cx="130" cy="130" r="18" fill="#a8451c"/>
+        <circle cx="130" cy="130" r="18" fill="none" stroke="#7a2f10" stroke-width="1"/>
+
+        <!-- bow loops -->
+        <ellipse cx="100" cy="118" rx="22" ry="14" fill="#d97a3a" transform="rotate(-25 100 118)" stroke="#7a2f10" stroke-width="0.8"/>
+        <ellipse cx="160" cy="118" rx="22" ry="14" fill="#d97a3a" transform="rotate(25 160 118)" stroke="#7a2f10" stroke-width="0.8"/>
+        <ellipse cx="100" cy="118" rx="10" ry="6" fill="#7a2f10" transform="rotate(-25 100 118)" opacity="0.5"/>
+        <ellipse cx="160" cy="118" rx="10" ry="6" fill="#7a2f10" transform="rotate(25 160 118)" opacity="0.5"/>
+
+        <!-- center knot detail -->
+        <circle cx="130" cy="130" r="6" fill="#d97a3a"/>
+
+        <!-- ribbon tails -->
+        <path d="M120 148 Q108 175 95 185 L108 188 Q120 170 128 152 Z" fill="#a8451c" stroke="#7a2f10" stroke-width="0.5"/>
+        <path d="M140 148 Q152 175 165 185 L152 188 Q140 170 132 152 Z" fill="#a8451c" stroke="#7a2f10" stroke-width="0.5"/>
+      </svg>
+    </div>
+
+    <div class="hint">
+      tap to unwrap
+      <span class="arrow">↑</span>
+    </div>
+  </div>
+
+  <!-- ============ STAGE 2: CARD ============ -->
+  <div class="card-stage" id="cardStage" aria-hidden="true">
+    <div class="card">
+      <div class="label-eyebrow" id="labelEyebrow">Gift Card</div>
+      <div class="label-rule"><span class="ornament">✦</span></div>
+
+      <h1 class="shop-name" id="shopName">The Cheese Shop</h1>
+      <p class="shop-sub" id="shopSub">a hands-on cheesemaking class</p>
+      <div class="location" id="location">Longmont · Colorado</div>
+
+      <div class="amount-block">
+        <div class="amount-label">Value</div>
+        <div class="amount" id="amount">$0</div>
+      </div>
+
+      <div class="recipients" id="recipients">
+        <span class="for">for</span>
+        Your Cousin &amp; His Lovely Wife
+      </div>
+
+      <p class="note" id="note">“Go make something delicious together.”</p>
+
+      <div class="code-block" id="codeBlock">
+        <div class="code-label">Gift Code</div>
+        <div class="code" id="code" title="Tap to copy">XXXX-XXXX</div>
+        <div class="code-hint" id="codeHint">tap to copy</div>
+      </div>
+
+      <a class="redeem" id="redeem" href="#" target="_blank" rel="noopener">
+        Redeem &nbsp;→
+      </a>
+
+      <div class="signoff" id="signoff">
+        with love,
+        <span class="from-name" id="fromName">— G</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+/* ============================================================
+   ★ EDIT THESE FIELDS BEFORE SENDING ★
+   Any field left empty/null will hide gracefully.
+   ============================================================ */
+const CONFIG = {
+  recipients:   "Your Cousin & His Lovely Wife",  // shown on the card
+  greeting:     "for you two",                    // small line above the wrapped wheel
+  shopName:     "The Cheese Shop",                // big display name
+  shopSubtitle: "a hands-on cheesemaking class",  // italic subtitle under the name
+  location:     "Longmont · Colorado",
+  amount:       "$150",                           // include the $ — show whatever string you want
+  giftCode:     "CHEDDAR-2026",                   // leave "" to hide the code block
+  redeemUrl:    "https://example.com/redeem",     // leave "" to hide the redeem button
+  note:         "For an afternoon of curds, rinds, and very good company. Eat the evidence.",
+  fromName:     "Graham"
+};
+/* ============================================================ */
+
+(function () {
+  const $ = (id) => document.getElementById(id);
+
+  // ---- populate ----
+  const hide = (el) => el && el.classList.add('hidden');
+
+  if (CONFIG.recipients)  $('recipients').lastChild ? null : null;
+  if (CONFIG.recipients) {
+    $('recipients').innerHTML = '<span class="for">for</span>' + escapeHtml(CONFIG.recipients);
+  } else hide($('recipients'));
+
+  $('recipientGreeting').textContent = CONFIG.greeting || '';
+  if (!CONFIG.greeting) hide($('recipientGreeting'));
+
+  if (CONFIG.shopName) $('shopName').textContent = CONFIG.shopName;
+  else hide($('shopName'));
+
+  if (CONFIG.shopSubtitle) $('shopSub').textContent = CONFIG.shopSubtitle;
+  else hide($('shopSub'));
+
+  if (CONFIG.location) $('location').textContent = CONFIG.location;
+  else hide($('location'));
+
+  if (CONFIG.amount) $('amount').textContent = CONFIG.amount;
+  else hide($('amount').parentElement);
+
+  if (CONFIG.note) $('note').textContent = '“' + CONFIG.note + '”';
+  else hide($('note'));
+
+  if (CONFIG.giftCode) $('code').textContent = CONFIG.giftCode;
+  else hide($('codeBlock'));
+
+  if (CONFIG.redeemUrl) $('redeem').setAttribute('href', CONFIG.redeemUrl);
+  else hide($('redeem'));
+
+  if (CONFIG.fromName) $('fromName').textContent = '— ' + CONFIG.fromName;
+  else hide($('signoff'));
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  // ---- reveal interaction ----
+  const wheel = $('wheel');
+  const wrapStage = $('wrapStage');
+  const cardStage = $('cardStage');
+  let revealed = false;
+
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    if (navigator.vibrate) try { navigator.vibrate(30); } catch (e) {}
+    wrapStage.classList.add('is-gone');
+    setTimeout(() => {
+      cardStage.classList.add('is-here');
+      cardStage.setAttribute('aria-hidden', 'false');
+      launchConfetti();
+    }, 300);
+  }
+
+  wheel.addEventListener('click', reveal);
+  wheel.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); reveal(); }
+  });
+
+  // ---- copy code ----
+  const codeEl = $('code');
+  const codeHint = $('codeHint');
+  if (codeEl && CONFIG.giftCode) {
+    codeEl.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(CONFIG.giftCode);
+        codeHint.textContent = 'copied ✓';
+        setTimeout(() => { codeHint.textContent = 'tap to copy'; }, 1800);
+      } catch (e) {
+        codeHint.textContent = 'select &amp; copy';
+      }
+    });
+  }
+
+  // ---- confetti ----
+  function launchConfetti() {
+    const host = $('confetti');
+    const colors = ['#b85c28', '#d97a3a', '#c89938', '#6b8a4e', '#f0d27a', '#8a3f17'];
+    const N = 60;
+    for (let i = 0; i < N; i++) {
+      const p = document.createElement('span');
+      const c = colors[i % colors.length];
+      const left = Math.random() * 100;
+      const dur = 2200 + Math.random() * 1800;
+      const delay = Math.random() * 400;
+      const drift = (Math.random() - 0.5) * 200;
+      const rot = (Math.random() - 0.5) * 720;
+      const shape = Math.random() < 0.4
+        ? 'border-radius: 50%; width: 7px; height: 7px;'
+        : 'width: 8px; height: 12px;';
+      p.style.cssText =
+        'left:' + left + '%;' +
+        'background:' + c + ';' +
+        shape +
+        'animation: fall ' + dur + 'ms cubic-bezier(0.15,0.6,0.4,1) ' + delay + 'ms forwards;' +
+        '--drift:' + drift + 'px;' +
+        '--rot:' + rot + 'deg;';
+      host.appendChild(p);
+      setTimeout(() => p.remove(), dur + delay + 100);
+    }
+  }
+
+  // dynamic keyframes for confetti
+  const sheet = document.createElement('style');
+  sheet.textContent =
+    '@keyframes fall {' +
+    '  0%   { opacity: 0; transform: translate(0,0) rotate(0); }' +
+    '  10%  { opacity: 1; }' +
+    '  100% { opacity: 0; transform: translate(var(--drift), 110vh) rotate(var(--rot)); }' +
+    '}';
+  document.head.appendChild(sheet);
+})();
+</script>
+</body>
+</html>
